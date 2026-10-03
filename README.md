@@ -74,6 +74,17 @@ bola esperada e detectada. Denominadores vazios produzem `null`, não resultados
 inventados. Uma falha de câmera gera `camera_error` e aborta a execução; não conta
 como frame sem bola.
 
+Para gerar um painel PNG da mesma execução sintética, use:
+
+```powershell
+.\.venv\Scripts\python.exe -m robosense_lab.demo --output artifacts/demo-m1.png
+```
+
+O painel mostra exemplos positivo e negativo, o centro calculado e métricas da
+execução. Imagem e registro usam o mesmo cenário e o detector M1. O programa cria
+um PNG novo e recusa sobrescrever arquivos. A amostra entregue está em
+[artifacts/demo-m1.png](artifacts/demo-m1.png).
+
 ## Limites deste milestone
 
 O detector usa limiar de cor HSV, área mínima e circularidade, selecionando o
