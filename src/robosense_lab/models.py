@@ -9,13 +9,14 @@ from numpy.typing import NDArray
 
 @dataclass(frozen=True)
 class Frame:
-    """Imagem BGR uint8; timestamp pertence ao domínio clock_domain."""
+    """Imagem BGR uint8; captura e entrega usam o mesmo clock_domain."""
 
     image: NDArray[np.uint8]
     camera_id: str
     sequence: int
     timestamp_ns: int
     clock_domain: str
+    received_timestamp_ns: int | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.image, np.ndarray):
@@ -28,6 +29,11 @@ class Frame:
         ):
             raise ValueError("image deve ser BGR uint8 com dimensões H x W x 3 não vazias")
         _validate_metadata(self.camera_id, self.sequence, self.timestamp_ns, self.clock_domain)
+        if self.received_timestamp_ns is not None and (
+            type(self.received_timestamp_ns) is not int
+            or self.received_timestamp_ns < self.timestamp_ns
+        ):
+            raise ValueError("entrega deve ser um inteiro e não pode anteceder a captura")
 
 
 @dataclass(frozen=True)
