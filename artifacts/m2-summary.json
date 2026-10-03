@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "milestone": "M2",
+  "runtime": {
+    "python": "3.14.5",
+    "numpy": "2.5.3",
+    "opencv": "4.14.0"
+  },
+  "max_frame_age_ns": 100000000,
+  "results": [
+    {
+      "scenario": "baseline",
+      "status": "completed",
+      "log": "baseline.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 0.0,
+        "seed": 42,
+        "occlusion_fraction": 0.0,
+        "loss_at_frame": null,
+        "delay_ns": 0
+      },
+      "metrics": {
+        "frames": 60,
+        "frames_received": 60,
+        "stale_frames": 0,
+        "mean_processing_ms": 0.17446166666666665,
+        "mean_frame_age_ms": 0.0,
+        "max_observed_frame_age_ms": 0.0,
+        "true_positives": 48,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 12,
+        "precision": 1.0,
+        "recall": 1.0,
+        "mean_localization_error_px": 0.0
+      }
+    },
+    {
+      "scenario": "noise",
+      "status": "completed",
+      "log": "noise.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 45.0,
+        "seed": 42,
+        "occlusion_fraction": 0.0,
+        "loss_at_frame": null,
+        "delay_ns": 0
+      },
+      "metrics": {
+        "frames": 60,
+        "frames_received": 60,
+        "stale_frames": 0,
+        "mean_processing_ms": 0.8480283333333334,
+        "mean_frame_age_ms": 0.0,
+        "max_observed_frame_age_ms": 0.0,
+        "true_positives": 24,
+        "false_positives": 0,
+        "false_negatives": 24,
+        "true_negatives": 12,
+        "precision": 1.0,
+        "recall": 0.5,
+        "mean_localization_error_px": 0.10774666134888111
+      }
+    },
+    {
+      "scenario": "partial_occlusion",
+      "status": "completed",
+      "log": "partial_occlusion.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 0.0,
+        "seed": 42,
+        "occlusion_fraction": 0.5,
+        "loss_at_frame": null,
+        "delay_ns": 0
+      },
+      "metrics": {
+        "frames": 60,
+        "frames_received": 60,
+        "stale_frames": 0,
+        "mean_processing_ms": 0.17466,
+        "mean_frame_age_ms": 0.0,
+        "max_observed_frame_age_ms": 0.0,
+        "true_positives": 48,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 12,
+        "precision": 1.0,
+        "recall": 1.0,
+        "mean_localization_error_px": 5.394106813996306
+      }
+    },
+    {
+      "scenario": "full_occlusion",
+      "status": "completed",
+      "log": "full_occlusion.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 0.0,
+        "seed": 42,
+        "occlusion_fraction": 1.0,
+        "loss_at_frame": null,
+        "delay_ns": 0
+      },
+      "metrics": {
+        "frames": 60,
+        "frames_received": 60,
+        "stale_frames": 0,
+        "mean_processing_ms": 0.16071333333333335,
+        "mean_frame_age_ms": 0.0,
+        "max_observed_frame_age_ms": 0.0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 48,
+        "true_negatives": 12,
+        "precision": null,
+        "recall": 0.0,
+        "mean_localization_error_px": null
+      }
+    },
+    {
+      "scenario": "camera_loss",
+      "status": "camera_error",
+      "log": "camera_loss.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 0.0,
+        "seed": 42,
+        "occlusion_fraction": 0.0,
+        "loss_at_frame": 30,
+        "delay_ns": 0
+      },
+      "metrics": {
+        "frames": 30,
+        "frames_received": 30,
+        "stale_frames": 0,
+        "mean_processing_ms": 0.17257333333333336,
+        "mean_frame_age_ms": 0.0,
+        "max_observed_frame_age_ms": 0.0,
+        "true_positives": 24,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 6,
+        "precision": 1.0,
+        "recall": 1.0,
+        "mean_localization_error_px": 0.0
+      }
+    },
+    {
+      "scenario": "delay_50ms",
+      "status": "completed",
+      "log": "delay_50ms.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 0.0,
+        "seed": 42,
+        "occlusion_fraction": 0.0,
+        "loss_at_frame": null,
+        "delay_ns": 50000000
+      },
+      "metrics": {
+        "frames": 60,
+        "frames_received": 60,
+        "stale_frames": 0,
+        "mean_processing_ms": 0.17040666666666665,
+        "mean_frame_age_ms": 50.0,
+        "max_observed_frame_age_ms": 50.0,
+        "true_positives": 48,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 12,
+        "precision": 1.0,
+        "recall": 1.0,
+        "mean_localization_error_px": 0.0
+      }
+    },
+    {
+      "scenario": "delay_200ms",
+      "status": "completed",
+      "log": "delay_200ms.jsonl",
+      "simulation": {
+        "frame_count": 60,
+        "noise_std": 0.0,
+        "seed": 42,
+        "occlusion_fraction": 0.0,
+        "loss_at_frame": null,
+        "delay_ns": 200000000
+      },
+      "metrics": {
+        "frames": 0,
+        "frames_received": 60,
+        "stale_frames": 60,
+        "mean_processing_ms": null,
+        "mean_frame_age_ms": 200.0,
+        "max_observed_frame_age_ms": 200.0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "true_negatives": 0,
+        "precision": null,
+        "recall": null,
+        "mean_localization_error_px": null
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 ## Fluxo e responsabilidades
 
 ```text
-CLI → Camera.read() → Frame → BallDetector.detect() → BallObservation
+CLI → Camera.read() → Frame → validade temporal → BallDetector → BallObservation
                          ↓                              ↓
                    captura BGR                   avaliação opcional
                                                         ↓
@@ -11,11 +11,12 @@ CLI → Camera.read() → Frame → BallDetector.detect() → BallObservation
 ```
 
 - `models.py`: contratos e validação de metadados, imagens e observações.
-- `cameras.py`: contrato `Camera`, erro de aquisição e câmera sintética.
+- `cameras.py`: contrato `Camera`, erro de aquisição e câmera sintética com perturbações M2.
 - `perception.py`: reconhecimento do candidato somente a partir do frame.
-- `pipeline.py`: coordenação, métricas e encerramento da fonte.
+- `pipeline.py`: rejeição por idade, coordenação, métricas e encerramento da fonte.
 - `telemetry.py`: serialização JSONL e descarga dos eventos.
 - `__main__.py`: argumentos, arquivo de saída e composição do cenário M1.
+- `experiments.py`: comparação dos cenários M2, logs separados e resumo com status.
 
 Um processo local é suficiente neste milestone. Não há serviços ou rede.
 `Camera` é um `Protocol` de Python: uma classe que forneça `read()` e `close()`
@@ -36,15 +37,22 @@ Erros inesperados continuam visíveis, sem serem convertidos em detecções ause
   o detector não o modifica. A dataclass congelada não torna o array imutável.
 - Origem do frame identificada por `camera_id`; sequência e timestamp não negativos.
 - Timestamp da observação é o de captura, preservado pelo detector.
+- Entrega opcional (`received_timestamp_ns`) usa o relógio da captura e não pode
+  antecedê-la. Uma fonte sem esse metadado continua compatível com M1, mas não pode
+  usar a política de idade. O pipeline recusa avaliar idade desconhecida.
 - Ausência de bola usa coordenadas `None` e confiança zero.
 - Detecção usa coordenadas finitas e não negativas; o detector calcula o centro
   dentro da imagem. Confiança finita entre zero e um.
 - Falha de aquisição é distinta de ausência de bola.
 - O detector não recebe o ground truth. A CLI o entrega separadamente ao avaliador.
-- Na avaliação do M1, ground truth e frames precisam ter o mesmo comprimento e
-  sequência contígua começando em zero; divergências encerram a execução com erro.
+- Na avaliação, ground truth e frames recebidos precisam ter o mesmo comprimento
+  e sequência contígua começando em zero; rejeições por idade preservam o alinhamento.
 - `run_summary` só é escrito após consumo e avaliação normais da sequência.
 - Resultados existentes não são sobrescritos.
+- Idade acima do limite é registrada em `frame_rejected`, sem chamar o detector.
+  Igualdade com o limite é aceita. Rejeições não entram nas métricas de percepção.
+- Falha da fonte registra `camera_error` com resumo parcial e encerra o pipeline.
+  Nenhuma métrica é extrapolada para frames não recebidos.
 
 As coordenadas são da imagem, não do campo nem do referencial do robô. Para obter
 ângulo ou posição física, precisaremos da calibração e geometria de montagem.
@@ -76,6 +84,25 @@ da geração do cenário principal.
 O tempo simulado é `sequence * 1_000_000_000 // 30`, no domínio `simulation`.
 `perf_counter_ns()` mede apenas a duração local do detector. Não subtraímos
 timestamps de domínios diferentes para inventar latência.
+
+No M2, entrega = captura + atraso configurado. A política de idade pertence ao
+pipeline, enquanto a geração do atraso pertence à fonte. São relógios virtuais,
+sem espera real ou modelo de filas. A verificação é feita na entrega; não inclui
+o tempo posterior de processamento ou eventual comunicação ao robô.
+
+O comparador usa limite experimental de 100 ms. `run_start` inclui parâmetros de
+simulação, semente e versões Python/NumPy/OpenCV. Ruído gaussiano é independente
+por canal BGR, limitado a [0, 255]. A oclusão cobre da esquerda para a direita uma
+fração da largura de 25 pixels da bola, arredondada para cima. A resposta conhecida
+permanece separada dos pixels perturbados.
+
+A extração de `_Metrics` centraliza os resultados normais e parciais. Todos os
+frames recebidos entram na contagem de disponibilidade; somente frames processados
+entram em TP/FP/FN/TN. Assim, descarte de dados não aparenta melhora na detecção.
+
+Em `camera_loss`, o comparador continua após a falha planejada e identifica o
+resultado como parcial. Uma falha de fonte em outro cenário aborta o comparador.
+Não há reconexão automática nem política de continuidade de motores nesta etapa.
 
 Fontes futuras declararão seus relógios e limitações de captura. Multi-câmera
 exigirá identificação, sincronização e política para descartar frames antigos,

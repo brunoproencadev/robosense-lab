@@ -19,9 +19,23 @@ os pixels; o avaliador compara o resultado com essa resposta. Registros e testes
 cobrem bola presente e ausente, centro conhecido, candidatos inadequados,
 falhas de aquisição, descarte de recursos e proteção de resultados existentes.
 
-A desconexão é exercitada por uma fonte de teste; não há injeção de falhas
-configurável na CLI. A simulação do M2 adicionará os cenários adversos reproduzíveis.
+A desconexão do M1 foi exercitada por uma fonte de teste. O M2 adicionou injeção
+configurável de perturbações e uma comparação reproduzível na CLI.
 Tracking/fusão não entram sem uma necessidade demonstrada e referenciais definidos.
+
+## M2 implementado e executado
+
+Ruído com semente, oclusão parcial/total, perda terminal da fonte e atraso virtual
+foram implementados. O pipeline rejeita frames acima de uma idade configurável.
+O comparador registra resultados completos, parciais e descartes separadamente.
+
+A validação local de 03/10/2026 executou 37 testes e sete cenários de até 60 frames.
+O ruído revelou 24 falsos negativos; oclusão parcial deslocou o centro em média
+5,39 pixels; dados com 200 ms de idade foram rejeitados pelo limite de 100 ms.
+Consulte [os resultados e limitações](validation-m2.md).
+
+O próximo milestone é M3, com gravações e anotações da bola real. Antes de ajustar
+o detector para resultados sintéticos melhores, reunir evidência óptica no FabLab.
 
 ## O que pode ser feito em casa
 
