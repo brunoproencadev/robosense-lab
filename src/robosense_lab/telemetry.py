@@ -6,10 +6,11 @@ from typing import TextIO
 
 import cv2
 import numpy as np
+import serial
 
 
 def runtime_versions() -> dict[str, str]:
-    return {"python": platform.python_version(), "numpy": np.__version__, "opencv": cv2.__version__}
+    return {"python": platform.python_version(), "numpy": np.__version__, "opencv": cv2.__version__, "pyserial": serial.VERSION}
 
 
 def write_event(stream: TextIO, event: dict) -> None:
