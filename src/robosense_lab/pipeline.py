@@ -7,9 +7,32 @@ from time import perf_counter_ns
 from typing import TextIO
 
 from .cameras import Camera, CameraError
-from .models import BallObservation
+from .models import Frame
 from .perception import BallDetector
 from .telemetry import write_event
+
+
+def analyze_frame(frame: Frame, detector: BallDetector, *, max_frame_age_ns: int | None = None) -> dict:
+    """Percepção de um frame; compartilhada pelos pipelines de uma/várias fontes."""
+    if max_frame_age_ns is not None and (type(max_frame_age_ns) is not int or max_frame_age_ns < 0):
+        raise ValueError("max_frame_age_ns deve ser um inteiro não negativo")
+    age_ns = None
+    if frame.received_timestamp_ns is not None:
+        age_ns = frame.received_timestamp_ns - frame.timestamp_ns
+    elif max_frame_age_ns is not None:
+        raise ValueError("limite de idade exige timestamp de entrega no relógio da captura")
+    timing = {"received_timestamp_ns": frame.received_timestamp_ns, "frame_age_ns": age_ns}
+    if max_frame_age_ns is not None and age_ns > max_frame_age_ns:
+        return {
+            "type": "frame_rejected", "reason": "stale_frame",
+            "camera_id": frame.camera_id, "sequence": frame.sequence,
+            "timestamp_ns": frame.timestamp_ns, "clock_domain": frame.clock_domain,
+            "max_frame_age_ns": max_frame_age_ns, **timing,
+        }
+    started = perf_counter_ns()
+    observation = detector.detect(frame)
+    elapsed_ns = perf_counter_ns() - started
+    return {"type": "observation", **asdict(observation), "processing_ns": elapsed_ns, **timing}
 
 
 @dataclass
@@ -27,12 +50,12 @@ class _Metrics:
         "true_positives": 0, "false_positives": 0, "false_negatives": 0, "true_negatives": 0,
     })
 
-    def evaluate(self, observation: BallObservation, expected: tuple[int, int] | None) -> float | None:
+    def evaluate(self, observation: dict, expected: tuple[int, int] | None) -> float | None:
         if expected is None:
-            self.counts["false_positives" if observation.ball_detected else "true_negatives"] += 1
-        elif observation.ball_detected:
+            self.counts["false_positives" if observation["ball_detected"] else "true_negatives"] += 1
+        elif observation["ball_detected"]:
             self.counts["true_positives"] += 1
-            error = math.hypot(observation.ball_x - expected[0], observation.ball_y - expected[1])
+            error = math.hypot(observation["ball_x"] - expected[0], observation["ball_y"] - expected[1])
             self.error_sum += error
             return error
         else:
@@ -98,36 +121,23 @@ def run_pipeline(
             ):
                 raise ValueError("ground truth não corresponde à sequência de frames")
             expected = expected_positions[metrics.frames_received] if expected_positions is not None else None
-            age_ns = None
-            if frame.received_timestamp_ns is not None:
-                age_ns = frame.received_timestamp_ns - frame.timestamp_ns
+            event = analyze_frame(frame, detector, max_frame_age_ns=max_frame_age_ns)
+            age_ns = event["frame_age_ns"]
+            if age_ns is not None:
                 metrics.age_samples += 1
                 metrics.age_sum_ns += age_ns
                 metrics.max_age_ns = max(metrics.max_age_ns, age_ns)
-            elif max_frame_age_ns is not None:
-                raise ValueError("limite de idade exige timestamp de entrega no relógio da captura")
             metrics.frames_received += 1
-            timing = {"received_timestamp_ns": frame.received_timestamp_ns, "frame_age_ns": age_ns}
-            if max_frame_age_ns is not None and age_ns > max_frame_age_ns:
+            if event["type"] == "frame_rejected":
                 metrics.stale_frames += 1
-                event = {
-                    "type": "frame_rejected", "reason": "stale_frame",
-                    "camera_id": frame.camera_id, "sequence": frame.sequence,
-                    "timestamp_ns": frame.timestamp_ns, "clock_domain": frame.clock_domain,
-                    "max_frame_age_ns": max_frame_age_ns, **timing,
-                }
                 if metrics.ground_truth_available:
                     event["expected_center_px"] = expected
                 write_event(stream, event)
                 continue
-            started = perf_counter_ns()
-            observation = detector.detect(frame)
-            elapsed_ns = perf_counter_ns() - started
-            metrics.processing_ns += elapsed_ns
-            event = {"type": "observation", **asdict(observation), "processing_ns": elapsed_ns, **timing}
+            metrics.processing_ns += event["processing_ns"]
             if metrics.ground_truth_available:
                 event["expected_center_px"] = expected
-                event["localization_error_px"] = metrics.evaluate(observation, expected)
+                event["localization_error_px"] = metrics.evaluate(event, expected)
             write_event(stream, event)
             metrics.frames += 1
         if expected_positions is not None and metrics.frames_received != len(expected_positions):
