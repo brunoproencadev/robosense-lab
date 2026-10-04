@@ -1,6 +1,7 @@
 """Contrato de aquisição e fonte sintética dos milestones M1/M2."""
 
 from dataclasses import replace
+from collections.abc import Collection
 import math
 from typing import Protocol
 
@@ -36,6 +37,7 @@ class SimulatedCamera:
         self, frame_count: int = 60, *, noise_std: float = 0.0, seed: int = 42,
         occlusion_fraction: float = 0.0, loss_at_frame: int | None = None,
         delay_ns: int = 0,
+        camera_id: str = "simulated-0", visible_frames: Collection[int] | None = None,
     ) -> None:
         if type(frame_count) is not int or frame_count <= 0:
             raise ValueError("frame_count deve ser um inteiro positivo")
@@ -51,14 +53,23 @@ class SimulatedCamera:
             raise ValueError("loss_at_frame deve ser um índice dentro da sequência")
         if type(delay_ns) is not int or delay_ns < 0:
             raise ValueError("delay_ns deve ser um inteiro não negativo")
+        if not isinstance(camera_id, str) or not camera_id.strip():
+            raise ValueError("camera_id deve identificar a câmera")
+        visibility = None if visible_frames is None else tuple(visible_frames)
+        if visibility is not None and any(type(i) is not int or not 0 <= i < frame_count for i in visibility):
+            raise ValueError("visible_frames deve conter índices dentro da sequência")
+        visibility = None if visibility is None else frozenset(visibility)
         self._configuration = {
             "frame_count": frame_count, "noise_std": noise_std, "seed": seed,
             "occlusion_fraction": occlusion_fraction,
             "loss_at_frame": loss_at_frame, "delay_ns": delay_ns,
+            "camera_id": camera_id,
+            "visible_frames": None if visibility is None else sorted(visibility),
         }
         self._rng = np.random.default_rng(seed)
         self.expected_positions: tuple[tuple[int, int] | None, ...] = tuple(
-            None if i % 5 == 4 else (24 + (i * 7) % 272, 24 + (i * 5) % 192)
+            None if (i % 5 == 4 if visibility is None else i not in visibility)
+            else (24 + (i * 7) % 272, 24 + (i * 5) % 192)
             for i in range(frame_count)
         )
         self._sequence = 0
@@ -67,7 +78,10 @@ class SimulatedCamera:
     @property
     def configuration(self) -> dict:
         """Cópia dos parâmetros necessários para reproduzir a execução."""
-        return dict(self._configuration)
+        configuration = dict(self._configuration)
+        if configuration["visible_frames"] is not None:
+            configuration["visible_frames"] = list(configuration["visible_frames"])
+        return configuration
 
     def read(self) -> Frame | None:
         if self._closed:
@@ -89,7 +103,7 @@ class SimulatedCamera:
             image = np.clip(image.astype(np.float64) + noise, 0, 255).astype(np.uint8)
         frame = Frame(
             image=image,
-            camera_id="simulated-0",
+            camera_id=self._configuration["camera_id"],
             sequence=self._sequence,
             timestamp_ns=self._sequence * 1_000_000_000 // 30,
             clock_domain="simulation",
