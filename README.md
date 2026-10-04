@@ -7,7 +7,7 @@ oclusão, perda da fonte e idade dos frames. Não envia comandos ao robô.
 
 ## Preparação
 
-Requer Python 3.12 ou superior e acesso ao PyPI na instalação inicial. Execute os
+Requer Python 3.11 ou superior e acesso ao PyPI na instalação inicial. Execute os
 comandos na raiz do projeto. O ambiente virtual mantém as dependências isoladas.
 
 Windows / PowerShell:
@@ -152,10 +152,26 @@ laranja parecido pode causar falso positivo. Esses limiares são um baseline par
 imagens sintéticas e não foram validados para a bola infravermelha real.
 
 O M2 simula perturbações de pixels e atraso de entrega. Ainda não simula física,
-óptica, comunicação ou motores. Não há tracking, fusão, aquisição USB ou integração
+óptica ou motores. Não há tracking, fusão, aquisição USB ou integração
 com o GIGA. Não há recuperação automática após perda da fonte. O protocolo
 `Camera` define o ponto onde uma fonte real poderá ser adicionada sem alterar o
 detector.
+
+## Setores F/D/E/A e PySerial
+
+```powershell
+.\.venv\Scripts\python.exe -m robosense_lab.sectors --frames 6 --serial-port loop:// --output runs/setores.jsonl
+```
+
+Quatro fontes simuladas produzem `F`, `D`, `E`, `A`, `SEM_BOLA` e `F D`.
+Sobreposição preserva todos os setores detectados. `SEM_DADOS` identifica dados
+inválidos, sem reutilizar direção antiga. Omita `--serial-port` para usar somente
+o terminal. O loopback do PySerial confere os bytes enviados sem precisar de placa.
+Na serial, o formato é JSON por linha, com setores, estado, sequência e timestamp.
+
+Veja [a lógica e o protocolo de bancada](docs/sectors-and-serial.md) e
+[a preparação para Raspberry Pi 4B](docs/raspberry-pi4b.md). O alvo é Raspberry Pi
+OS de 64 bits/Python >= 3.11; execução real na placa ainda não foi validada.
 
 Consulte [a arquitetura](docs/architecture.md), [os milestones](docs/milestones.md)
 e [a validação registrada](docs/validation-m1.md). O sketch fornecido pelo usuário

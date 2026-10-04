@@ -17,6 +17,8 @@ CLI → Camera.read() → Frame → validade temporal → BallDetector → BallO
 - `telemetry.py`: serialização JSONL e descarga dos eventos.
 - `__main__.py`: argumentos, arquivo de saída e composição do cenário M1.
 - `experiments.py`: comparação dos cenários M2, logs separados e resumo com status.
+- `sectors.py`: ciclos sincronizados de câmeras por setor e saída no terminal.
+- `communication.py`: mensagens JSON por linha em PySerial, com loopback de bancada.
 
 Um processo local é suficiente neste milestone. Não há serviços ou rede.
 `Camera` é um `Protocol` de Python: uma classe que forneça `read()` e `close()`
@@ -113,6 +115,19 @@ implementados. O GIGA continuará dono do controle. A primeira integração deve
 receber dados apenas para observação; influência nos motores exige definição
 explícita de prioridade, expiração e comportamento em falha.
 
-TCP e UDP entre Pis, e serial USB/UART com o GIGA, continuam opções a avaliar.
-Nenhum transporte foi escolhido ou implementado. Também não existe garantia de
-tempo real neste pipeline Python.
+TCP e UDP entre Pis continuam opções a avaliar. A pedido do FabLab, foi adicionada
+saída serial PySerial opcional, exercitada em loopback. O formato JSON por linha é
+experimental; não há receptor implementado no GIGA nem integração de motores.
+Também não existe garantia de tempo real neste pipeline Python.
+
+## Extensão de setores
+
+A montagem de cada câmera determina F/D/E/A. `analyze_frame()` passou a ser o ponto
+comum de validade e detecção para fontes individuais e para ciclos por setor.
+Isso preserva a política M2 sem duplicar guardas ou acoplar o detector ao hardware.
+O pipeline de setores mantém todas as detecções válidas e declara a cobertura local;
+não escolhe prioridade nem tenta fundir dados entre relógios de placas diferentes.
+
+Ausência de bola e indisponibilidade são estados distintos. Falha de fonte/serial
+encerra a execução. O receptor futuro precisará expirar o último dado recebido
+quando o emissor parar. Consulte [os estados e a comunicação de bancada](sectors-and-serial.md).
