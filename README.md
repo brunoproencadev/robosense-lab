@@ -12,6 +12,22 @@ desenha um círculo acompanhando as detecções atuais. Veja a
 
 ## Preparação
 
+Ensaio ao vivo com câmera virtual/USB (preparação do M4):
+
+```powershell
+.\.venv\Scripts\python.exe -m robosense_lab.live --device 3 --output-dir "runs\live-$(Get-Date -Format 'yyyyMMdd-HHmmss-fff')"
+```
+
+O índice depende do computador; neste Windows, `3` abre OBS Virtual Camera.
+O OBS precisa receber a imagem do celular e estar com a câmera virtual ativa.
+O perfil ao vivo é experimental e ainda apresenta falsos alvos na mão e perdas
+da bola. As métricas domésticas não comprovam estabilidade ou desempenho na Pi.
+Esc fecha a janela. O ensaio usa a imagem inteira; `--roi-top 0.15` reproduz o
+recorte M3. `--frames 120 --no-preview` permite um teste finito sem janela.
+Ainda não há reconexão automática ou garantia de frame mais recente: o pedido de
+buffer de um frame depende do driver. Timestamps marcam entrega ao host, não
+exposição nem atraso de rede. Veja [o estado do ensaio](docs/live-trial.md).
+
 Requer Python 3.11 ou superior e acesso ao PyPI na instalação inicial. Execute os
 comandos na raiz do projeto. O ambiente virtual mantém as dependências isoladas.
 
