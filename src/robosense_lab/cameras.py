@@ -1,9 +1,10 @@
-"""Contrato de aquisição e fonte sintética dos milestones M1/M2."""
+"""Contrato de aquisição, simulação M1/M2 e gravações M3."""
 
 from dataclasses import replace
 from collections.abc import Collection
 import math
 from typing import Protocol
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -23,6 +24,57 @@ class Camera(Protocol):
     def close(self) -> None:
         """Libera a fonte; chamadas repetidas devem ser seguras."""
         ...
+
+
+class RecordedVideoCamera:
+    """Decodifica em ordem; timestamps são do vídeo, nunca relógio de hardware.
+
+    OpenCV informa o número de frames: fim antes desse limite é erro, não ausência.
+    A posição temporal vem do decoder (VFR); FPS médio é usado apenas na exportação.
+    """
+
+    def __init__(self, path: str | Path) -> None:
+        self.path = Path(path)
+        if not self.path.is_file():
+            raise CameraError(f"vídeo não encontrado: {self.path}")
+        self._capture = cv2.VideoCapture(str(self.path))
+        self._closed = False
+        self._sequence = 0
+        self._previous_timestamp = 0
+        self.fps = self._capture.get(cv2.CAP_PROP_FPS)
+        count = self._capture.get(cv2.CAP_PROP_FRAME_COUNT)
+        if (not self._capture.isOpened() or not math.isfinite(self.fps) or self.fps <= 0
+                or not math.isfinite(count) or count <= 0 or not count.is_integer()):
+            self.close()
+            raise CameraError(f"vídeo sem metadados válidos: {self.path}")
+        self.frame_count = int(count)
+        self._shape = None
+
+    def read(self) -> Frame | None:
+        if self._closed:
+            raise CameraError("vídeo já encerrado")
+        if self._sequence >= self.frame_count:
+            return None
+        ok, image = self._capture.read()
+        if not ok:
+            raise CameraError(f"falha de decodificação no frame {self._sequence}: {self.path.name}")
+        if self._shape is not None and image.shape != self._shape:
+            raise CameraError("dimensões do vídeo mudaram durante a decodificação")
+        self._shape = image.shape
+        position_ms = self._capture.get(cv2.CAP_PROP_POS_MSEC)
+        if not math.isfinite(position_ms) or position_ms < 0:
+            raise CameraError("timestamp do vídeo inválido")
+        timestamp = round(position_ms * 1_000_000)
+        if timestamp < self._previous_timestamp:
+            raise CameraError("timestamp do vídeo regrediu")
+        frame = Frame(image, self.path.name, self._sequence, timestamp, "recorded_video")
+        self._previous_timestamp = timestamp
+        self._sequence += 1
+        return frame
+
+    def close(self) -> None:
+        self._capture.release()
+        self._closed = True
 
 
 class SimulatedCamera:
