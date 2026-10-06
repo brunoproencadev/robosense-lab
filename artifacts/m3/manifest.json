@@ -1,0 +1,26 @@
+[
+  {
+    "file": "WIN_20261005_14_19_38_Pro-annotated.mp4",
+    "sha256": "9609735adddf3a6e275fd8e7cac4c41d81b48015ca2d2ac7760ae5cdcd83e7e5",
+    "frames": 522,
+    "codec": "H.264",
+    "audio": false,
+    "timing": "CFR average source FPS"
+  },
+  {
+    "file": "WIN_20261005_14_20_11_Pro-annotated.mp4",
+    "sha256": "d785f96af0abd9b06f21ca03bcea3b5c15f3eea8ded64b271fdace11da95cd82",
+    "frames": 488,
+    "codec": "H.264",
+    "audio": false,
+    "timing": "CFR average source FPS"
+  },
+  {
+    "file": "WIN_20261005_14_21_40_Pro-annotated.mp4",
+    "sha256": "04e042419ae0044d6980761503213e58f9c76130f287124c2342232ea3ba5515",
+    "frames": 525,
+    "codec": "H.264",
+    "audio": false,
+    "timing": "CFR average source FPS"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "input": "WIN_20261005_14_19_38_Pro.mp4",
+    "sha256": "ba9dd2e7b79b5c383f030cbd398a442205d7126cc059abf71db3ef250ac0b9cf",
+    "source_fps": 21.082322835790514,
+    "source_frames": 522,
+    "processing_width": 320,
+    "roi_top": 0.15,
+    "versions": {
+      "python": "3.14.5",
+      "numpy": "2.5.3",
+      "opencv": "4.14.0",
+      "pyserial": "3.5"
+    },
+    "profile": "m3-hsv-v1",
+    "association_reference_ms": 2000,
+    "clock_domain": "recorded_video",
+    "output_timing": "CFR mean source FPS; silent",
+    "frames": 522,
+    "sector_counts": {
+      "Left": 0,
+      "Front": 499,
+      "Right": 0,
+      "NO_BALL": 23
+    },
+    "mean_detector_ms": 2.479196743295019,
+    "p95_detector_ms": 3.2672,
+    "p95_decode_detect_render_write_ms": 12.319355,
+    "wall_seconds": 5.16965429999982,
+    "preview_paced": false
+  },
+  {
+    "input": "WIN_20261005_14_20_11_Pro.mp4",
+    "sha256": "62ee97469576f920e130b461b1f158c85f13e6c20798dc19d1a5684fd582864a",
+    "source_fps": 21.08537849982717,
+    "source_frames": 488,
+    "processing_width": 320,
+    "roi_top": 0.15,
+    "versions": {
+      "python": "3.14.5",
+      "numpy": "2.5.3",
+      "opencv": "4.14.0",
+      "pyserial": "3.5"
+    },
+    "profile": "m3-hsv-v1",
+    "association_reference_ms": 2000,
+    "clock_domain": "recorded_video",
+    "output_timing": "CFR mean source FPS; silent",
+    "frames": 488,
+    "sector_counts": {
+      "Left": 10,
+      "Front": 12,
+      "Right": 69,
+      "NO_BALL": 397
+    },
+    "mean_detector_ms": 2.622644262295082,
+    "p95_detector_ms": 3.337065,
+    "p95_decode_detect_render_write_ms": 12.383659999999999,
+    "wall_seconds": 5.149195299999519,
+    "preview_paced": false
+  },
+  {
+    "input": "WIN_20261005_14_21_40_Pro.mp4",
+    "sha256": "b50e5c7e0bcd2b987373ab5edde6832053a2e3844525f5a13ed565d84f10cd6a",
+    "source_fps": 21.081052430384343,
+    "source_frames": 525,
+    "processing_width": 320,
+    "roi_top": 0.15,
+    "versions": {
+      "python": "3.14.5",
+      "numpy": "2.5.3",
+      "opencv": "4.14.0",
+      "pyserial": "3.5"
+    },
+    "profile": "m3-hsv-v1",
+    "association_reference_ms": 2000,
+    "clock_domain": "recorded_video",
+    "output_timing": "CFR mean source FPS; silent",
+    "frames": 525,
+    "sector_counts": {
+      "Left": 0,
+      "Front": 525,
+      "Right": 0,
+      "NO_BALL": 0
+    },
+    "mean_detector_ms": 2.804915619047619,
+    "p95_detector_ms": 3.6518999999999995,
+    "p95_decode_detect_render_write_ms": 14.602479999999998,
+    "wall_seconds": 5.958292899999833,
+    "preview_paced": false
+  }
+]

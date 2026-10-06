@@ -1,0 +1,32 @@
+[
+  {
+    "input": "WIN_20261005_14_20_11_Pro.mp4",
+    "sha256": "62ee97469576f920e130b461b1f158c85f13e6c20798dc19d1a5684fd582864a",
+    "source_fps": 21.08537849982717,
+    "source_frames": 488,
+    "processing_width": 320,
+    "roi_top": 0.15,
+    "versions": {
+      "python": "3.14.5",
+      "numpy": "2.5.3",
+      "opencv": "4.14.0",
+      "pyserial": "3.5"
+    },
+    "profile": "m3-hsv-v1",
+    "association_reference_ms": 2000,
+    "clock_domain": "recorded_video",
+    "output_timing": "CFR mean source FPS; silent",
+    "frames": 488,
+    "sector_counts": {
+      "Left": 10,
+      "Front": 12,
+      "Right": 69,
+      "NO_BALL": 397
+    },
+    "mean_detector_ms": 2.67606618852459,
+    "p95_detector_ms": 3.36338,
+    "p95_decode_detect_render_write_ms": 12.153005,
+    "wall_seconds": 23.13471269999991,
+    "preview_paced": true
+  }
+]
