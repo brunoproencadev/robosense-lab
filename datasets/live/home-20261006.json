@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "file": "2026-10-06 19-24-12.mp4",
+  "sha256": "70bdd28b0d1523abd2d538dd1985e78d08142e9c97225a074c8c455bd1bb655a",
+  "frames": 3077,
+  "fps": 60,
+  "source_size": [
+    1920,
+    1080
+  ],
+  "crop_xywh": [
+    36,
+    60,
+    640,
+    444
+  ],
+  "labels_are_approximate": true,
+  "independent_holdout": false,
+  "warning": "screen recording contains existing detector overlays; tuning samples; not raw camera or Pi validation",
+  "annotations": [
+    {
+      "frame": 267,
+      "center_px": [
+        412.5,
+        355.5
+      ],
+      "radius_px": 29.5,
+      "bbox_px": [
+        386,
+        326,
+        439,
+        385
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 401,
+      "center_px": [
+        273.5,
+        337.5
+      ],
+      "radius_px": 31.5,
+      "bbox_px": [
+        248,
+        306,
+        299,
+        369
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 535,
+      "center_px": [
+        264.0,
+        248.0
+      ],
+      "radius_px": 119.0,
+      "bbox_px": [
+        178,
+        129,
+        350,
+        367
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 669,
+      "center_px": [
+        207.0,
+        262.5
+      ],
+      "radius_px": 113.5,
+      "bbox_px": [
+        126,
+        149,
+        288,
+        376
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 802,
+      "center_px": [
+        252.0,
+        256.0
+      ],
+      "radius_px": 15.0,
+      "bbox_px": [
+        243,
+        241,
+        261,
+        271
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 936,
+      "center_px": [
+        248.5,
+        261.0
+      ],
+      "radius_px": 12.5,
+      "bbox_px": [
+        236,
+        249,
+        261,
+        273
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 1337,
+      "center_px": [
+        420.0,
+        389.0
+      ],
+      "radius_px": 13.0,
+      "bbox_px": [
+        408,
+        376,
+        432,
+        402
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 1471,
+      "center_px": [
+        415.5,
+        316.5
+      ],
+      "radius_px": 17.5,
+      "bbox_px": [
+        405,
+        299,
+        426,
+        334
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 1605,
+      "center_px": [
+        427.5,
+        314.5
+      ],
+      "radius_px": 14.5,
+      "bbox_px": [
+        415,
+        300,
+        440,
+        329
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 1739,
+      "center_px": [
+        220.0,
+        215.0
+      ],
+      "radius_px": 90.0,
+      "bbox_px": [
+        130,
+        130,
+        310,
+        300
+      ],
+      "note": "approximate manual visible bounds; blur"
+    },
+    {
+      "frame": 1872,
+      "center_px": [
+        457.0,
+        221.0
+      ],
+      "radius_px": 62.0,
+      "bbox_px": [
+        419,
+        159,
+        495,
+        283
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2140,
+      "center_px": null,
+      "radius_px": null,
+      "bbox_px": null,
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2274,
+      "center_px": [
+        385.0,
+        213.0
+      ],
+      "radius_px": 152.0,
+      "bbox_px": [
+        274,
+        61,
+        496,
+        365
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2407,
+      "center_px": [
+        252.5,
+        213.0
+      ],
+      "radius_px": 66.0,
+      "bbox_px": [
+        202,
+        147,
+        303,
+        279
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2541,
+      "center_px": [
+        261.5,
+        228.0
+      ],
+      "radius_px": 62.0,
+      "bbox_px": [
+        214,
+        166,
+        309,
+        290
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2675,
+      "center_px": null,
+      "radius_px": null,
+      "bbox_px": null,
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2809,
+      "center_px": [
+        298.0,
+        166.5
+      ],
+      "radius_px": 59.5,
+      "bbox_px": [
+        253,
+        107,
+        343,
+        226
+      ],
+      "note": "approximate manual visible bounds"
+    },
+    {
+      "frame": 2942,
+      "center_px": [
+        262.5,
+        192.0
+      ],
+      "radius_px": 63.0,
+      "bbox_px": [
+        216,
+        129,
+        309,
+        255
+      ],
+      "note": "approximate manual visible bounds"
+    }
+  ],
+  "frame_range": [
+    90,
+    2960
+  ]
+}
