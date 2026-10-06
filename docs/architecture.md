@@ -19,6 +19,8 @@ CLI → Camera.read() → Frame → validade temporal → BallDetector → BallO
 - `experiments.py`: comparação dos cenários M2, logs separados e resumo com status.
 - `sectors.py`: ciclos sincronizados de câmeras por setor e saída no terminal.
 - `communication.py`: mensagens JSON por linha em PySerial, com loopback de bancada.
+- `m3.py`: vídeos anotados, terços da imagem e reprodução opcional com Tk.
+- `evaluate_m3.py`: anotações externas, comparação de perfis e métricas espaciais.
 
 Um processo local é suficiente neste milestone. Não há serviços ou rede.
 `Camera` é um `Protocol` de Python: uma classe que forneça `read()` e `close()`
@@ -110,10 +112,35 @@ Fontes futuras declararão seus relógios e limitações de captura. Multi-câme
 exigirá identificação, sincronização e política para descartar frames antigos,
 além de filas limitadas para não acumular latência.
 
-Tracking, fusão, comunicação e interface do robô serão módulos próprios quando
-implementados. O GIGA continuará dono do controle. A primeira integração deverá
+Fusão e interface de controle do robô serão implementadas nas etapas de hardware.
+O GIGA continuará dono do controle. A primeira integração deverá
 receber dados apenas para observação; influência nos motores exige definição
 explícita de prioridade, expiração e comportamento em falha.
+
+No M3, `RecordedVideoCamera` atende ao mesmo contrato. Não fornece idade de
+hardware; seus timestamps são posições do decoder no domínio `recorded_video`.
+O número de frames informado pelo arquivo delimita o fim normal; falha antecipada
+e mudança de dimensões são erros. Arquivos sem FPS/contagem válidos são recusados.
+
+`BallDetector(recorded=True)` usa o perfil HSV M3 e redução de resolução,
+morfologia e forma convexa. `BallTracker` mantém uma referência de posição/raio
+por até dois segundos do vídeo, usando-a somente para filtrar os candidatos atuais.
+Não há previsão, suavização com atraso ou coordenadas repetidas quando a medida
+é perdida. Medidas cortadas nas bordas horizontais não atualizam o raio de referência.
+O perfil padrão do detector preserva M1/M2; `ball_radius` é um campo opcional
+adicionado a `BallObservation` e aos eventos, compatível com consumidores que
+aceitam campos adicionais. A confiança continua uma medida de forma.
+
+A anotação visual e os limiares de avaliação ficam fora do detector. O avaliador
+verifica SHA-256 e dimensões, percorre a sequência inteira para reproduzir o estado
+do tracker e pontua somente os frames anotados. Um alvo fora da tolerância espacial
+conta FP e FN. A avaliação M3 é diferente da avaliação de presença M1/M2.
+
+A reprodução Tk é opcional, sem dependência de OpenCV GUI. Aguarda timestamps do
+vídeo e não mantém fila de imagens processadas. Se a máquina ficar lenta, a
+reprodução também fica lenta: não há promessa de tempo real estrito ou captura
+USB. A exportação é CFR no FPS médio da fonte, sem áudio; os JSONL preservam os
+timestamps originais de mídia. Não medir idade usando `perf_counter - media_time`.
 
 TCP e UDP entre Pis continuam opções a avaliar. A pedido do FabLab, foi adicionada
 saída serial PySerial opcional, exercitada em loopback. O formato JSON por linha é

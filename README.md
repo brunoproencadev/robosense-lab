@@ -5,6 +5,11 @@ Os milestones M1 e M2 funcionam sem webcams, Raspberry Pi ou Arduino: geram imag
 detectam um alvo sintético e registram observações e métricas. O M2 compara ruído,
 oclusão, perda da fonte e idade dos frames. Não envia comandos ao robô.
 
+O M3 lê gravações reais da bola laranja, divide a imagem em Left/Front/Right e
+desenha um círculo acompanhando as detecções atuais. Veja a
+[demonstração com três vídeos](artifacts/m3/index.html) e a
+[validação M3](docs/validation-m3.md).
+
 ## Preparação
 
 Requer Python 3.11 ou superior e acesso ao PyPI na instalação inicial. Execute os
@@ -152,7 +157,8 @@ laranja parecido pode causar falso positivo. Esses limiares são um baseline par
 imagens sintéticas e não foram validados para a bola infravermelha real.
 
 O M2 simula perturbações de pixels e atraso de entrega. Ainda não simula física,
-óptica ou motores. Não há tracking, fusão, aquisição USB ou integração
+óptica ou motores. M1/M2 não têm tracking; o M3 adiciona associação de medidas em
+gravações. Não há fusão, aquisição USB ou integração
 com o GIGA. Não há recuperação automática após perda da fonte. O protocolo
 `Camera` define o ponto onde uma fonte real poderá ser adicionada sem alterar o
 detector.
@@ -168,6 +174,32 @@ Sobreposição preserva todos os setores detectados. `SEM_DADOS` identifica dado
 inválidos, sem reutilizar direção antiga. Omita `--serial-port` para usar somente
 o terminal. O loopback do PySerial confere os bytes enviados sem precisar de placa.
 Na serial, o formato é JSON por linha, com setores, estado, sequência e timestamp.
+
+## M3: vídeos reais e círculo acompanhando a bola
+
+Na raiz do projeto, execute com uma pasta de saída nova:
+
+```powershell
+.\.venv\Scripts\python.exe -m robosense_lab.m3 "C:\Users\Bruno\Downloads\WIN_20261005_14_20_11_Pro.mp4" --output-dir runs/m3-replay --preview
+```
+
+`--preview` abre uma janela Tk, sincronizada com os timestamps da gravação.
+Esc encerra a execução e deixa um registro parcial, sem resumo de sucesso.
+Omita a opção para processar sem janela. É possível passar os três caminhos
+de vídeo antes de `--output-dir`. A saída inclui MP4 anotado, JPEG, JSONL e resumo.
+Os MP4 da CLI usam mp4v; os [vídeos demonstrativos publicados](artifacts/m3/)
+foram convertidos para H.264 para abrir em navegadores, sem áudio.
+
+Processamento padrão: largura 320, coordenadas devolvidas na resolução original,
+região superior de 15% ignorada. `--processing-width 640` e `--roi-top 0.15`
+permitem ensaios de calibração. Left/Front/Right são os terços esquerdo, central
+e direito da imagem **sem espelhamento**; não são ângulos físicos nem as câmeras
+F/D/E/A. A serial de bancada permanece um comando separado.
+
+A janela requer Tk: normalmente disponível no Python Windows; no Raspberry Pi
+OS com desktop pode exigir `python3-tk`. O processamento sem janela não usa Tk.
+Consulte [o guia e os resultados](docs/validation-m3.md) para avaliação reproduzível,
+limites de tracking e condições ainda não testadas.
 
 Veja [a lógica e o protocolo de bancada](docs/sectors-and-serial.md) e
 [a preparação para Raspberry Pi 4B](docs/raspberry-pi4b.md). O alvo é Raspberry Pi

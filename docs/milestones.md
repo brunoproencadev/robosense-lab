@@ -34,8 +34,19 @@ O ruído revelou 24 falsos negativos; oclusão parcial deslocou o centro em méd
 5,39 pixels; dados com 200 ms de idade foram rejeitados pelo limite de 100 ms.
 Consulte [os resultados e limitações](validation-m2.md).
 
-O próximo milestone é M3, com gravações e anotações da bola real. Antes de ajustar
-o detector para resultados sintéticos melhores, reunir evidência óptica no FabLab.
+## M3 implementado e executado em 05/10/2026
+
+Três gravações reais (1535 frames) foram processadas com setores Left/Front/Right,
+círculo acompanhando medidas atuais e reprodução opcional sincronizada com o vídeo.
+O dataset inicial tem 79 anotações aproximadas feitas por inspeção visual.
+O perfil de 320 pixels encontrou 48 das 50 bolas anotadas, com duas perdas sob a
+mão e nenhum falso positivo nas amostras; 62 testes passaram.
+
+São resultados exploratórios em gravações usadas no ajuste. O M3 ainda precisa
+de revisão humana das anotações e vídeos independentes em outras iluminações e
+distâncias. O próximo trabalho de hardware é M4, com uma webcam na Pi4B;
+FPS, atraso, temperatura e recuperação ainda precisam ser medidos na placa.
+Consulte [a validação, comandos e demonstração](validation-m3.md).
 
 ## O que pode ser feito em casa
 
