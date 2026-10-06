@@ -46,11 +46,16 @@ class BallObservation:
     ball_x: float | None
     ball_y: float | None
     confidence: float
+    ball_radius: float | None = None
 
     def __post_init__(self) -> None:
         _validate_metadata(self.camera_id, self.sequence, self.timestamp_ns, self.clock_domain)
         if type(self.ball_detected) is not bool:
             raise ValueError("ball_detected deve ser booleano")
+        if self.ball_radius is not None and (
+            not self.ball_detected or not math.isfinite(self.ball_radius) or self.ball_radius <= 0
+        ):
+            raise ValueError("raio exige detecção e valor finito positivo")
         if not math.isfinite(self.confidence) or not 0 <= self.confidence <= 1:
             raise ValueError("confidence deve estar entre 0 e 1")
         if self.ball_detected:
