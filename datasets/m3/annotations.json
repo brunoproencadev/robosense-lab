@@ -1,0 +1,584 @@
+{
+  "schema_version": 1,
+  "annotation_method": "manual visual estimates by Codex from decoded 480x270 contact sheets, scaled to original pixels; not detector predictions; review by team pending",
+  "center_tolerance": "max(24px, half annotated radius) for spatial TP",
+  "evaluation": "exploratory; clips inspected during tuning, no independent holdout",
+  "videos": [
+    {
+      "file": "WIN_20261005_14_19_38_Pro.mp4",
+      "sha256": "ba9dd2e7b79b5c383f030cbd398a442205d7126cc059abf71db3ef250ac0b9cf",
+      "width": 1920,
+      "height": 1080,
+      "frames": 522,
+      "annotations": [
+        {
+          "frame": 0,
+          "center_px": [
+            932,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 47,
+          "center_px": [
+            932,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 94,
+          "center_px": [
+            932,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 142,
+          "center_px": [
+            932,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 189,
+          "center_px": [
+            932,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 236,
+          "center_px": [
+            960,
+            412
+          ],
+          "radius_px": 104,
+          "note": "bola parcialmente coberta pela mão; centro aproximado"
+        },
+        {
+          "frame": 240,
+          "center_px": [
+            936,
+            412
+          ],
+          "radius_px": 104,
+          "note": "bola parcialmente coberta pela mão; centro aproximado"
+        },
+        {
+          "frame": 244,
+          "center_px": [
+            936,
+            412
+          ],
+          "radius_px": 104,
+          "note": "bola parcialmente coberta pela mão; centro aproximado"
+        },
+        {
+          "frame": 284,
+          "center_px": [
+            968,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 331,
+          "center_px": [
+            968,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 378,
+          "center_px": [
+            968,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 426,
+          "center_px": [
+            968,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 473,
+          "center_px": [
+            968,
+            412
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 521,
+          "center_px": [
+            968,
+            412
+          ],
+          "radius_px": 104
+        }
+      ]
+    },
+    {
+      "file": "WIN_20261005_14_20_11_Pro.mp4",
+      "sha256": "62ee97469576f920e130b461b1f158c85f13e6c20798dc19d1a5684fd582864a",
+      "width": 1920,
+      "height": 1080,
+      "frames": 488,
+      "annotations": [
+        {
+          "frame": 0,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 16,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 32,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 38,
+          "center_px": [
+            608,
+            304
+          ],
+          "radius_px": 124
+        },
+        {
+          "frame": 40,
+          "center_px": [
+            828,
+            292
+          ],
+          "radius_px": 112
+        },
+        {
+          "frame": 42,
+          "center_px": [
+            1020,
+            280
+          ],
+          "radius_px": 100
+        },
+        {
+          "frame": 44,
+          "center_px": [
+            1184,
+            268
+          ],
+          "radius_px": 92
+        },
+        {
+          "frame": 46,
+          "center_px": [
+            1328,
+            256
+          ],
+          "radius_px": 88
+        },
+        {
+          "frame": 48,
+          "center_px": [
+            1460,
+            244
+          ],
+          "radius_px": 76
+        },
+        {
+          "frame": 50,
+          "center_px": [
+            1572,
+            240
+          ],
+          "radius_px": 76
+        },
+        {
+          "frame": 52,
+          "center_px": [
+            1676,
+            228
+          ],
+          "radius_px": 72
+        },
+        {
+          "frame": 54,
+          "center_px": [
+            1768,
+            224
+          ],
+          "radius_px": 68
+        },
+        {
+          "frame": 56,
+          "center_px": [
+            1852,
+            220
+          ],
+          "radius_px": 64
+        },
+        {
+          "frame": 64,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 80,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 96,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 112,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 128,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 144,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 160,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 176,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 192,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 198,
+          "center_px": [
+            1620,
+            200
+          ],
+          "radius_px": 84
+        },
+        {
+          "frame": 200,
+          "center_px": [
+            1428,
+            204
+          ],
+          "radius_px": 96
+        },
+        {
+          "frame": 202,
+          "center_px": [
+            1220,
+            216
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 204,
+          "center_px": [
+            1000,
+            220
+          ],
+          "radius_px": 104
+        },
+        {
+          "frame": 206,
+          "center_px": [
+            764,
+            220
+          ],
+          "radius_px": 108
+        },
+        {
+          "frame": 208,
+          "center_px": [
+            484,
+            236
+          ],
+          "radius_px": 112
+        },
+        {
+          "frame": 210,
+          "center_px": [
+            192,
+            244
+          ],
+          "radius_px": 120
+        },
+        {
+          "frame": 212,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 224,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 240,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 256,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 272,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 288,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 304,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 320,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 336,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 352,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 368,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 384,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 400,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 416,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 432,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 436,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 438,
+          "center_px": null,
+          "radius_px": null
+        },
+        {
+          "frame": 440,
+          "center_px": [
+            1912,
+            340
+          ],
+          "radius_px": 92,
+          "note": "bola parcialmente fora da borda direita; centro aproximado"
+        },
+        {
+          "frame": 442,
+          "center_px": [
+            1888,
+            344
+          ],
+          "radius_px": 92
+        },
+        {
+          "frame": 444,
+          "center_px": [
+            1840,
+            344
+          ],
+          "radius_px": 92
+        },
+        {
+          "frame": 446,
+          "center_px": [
+            1792,
+            340
+          ],
+          "radius_px": 96
+        },
+        {
+          "frame": 448,
+          "center_px": [
+            1752,
+            344
+          ],
+          "radius_px": 96
+        },
+        {
+          "frame": 464,
+          "center_px": [
+            1560,
+            360
+          ],
+          "radius_px": 96
+        },
+        {
+          "frame": 480,
+          "center_px": [
+            1548,
+            360
+          ],
+          "radius_px": 96
+        }
+      ]
+    },
+    {
+      "file": "WIN_20261005_14_21_40_Pro.mp4",
+      "sha256": "b50e5c7e0bcd2b987373ab5edde6832053a2e3844525f5a13ed565d84f10cd6a",
+      "width": 1920,
+      "height": 1080,
+      "frames": 525,
+      "annotations": [
+        {
+          "frame": 0,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 47,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 95,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 142,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 190,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 238,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 285,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 333,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 381,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 428,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 476,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        },
+        {
+          "frame": 524,
+          "center_px": [
+            960,
+            200
+          ],
+          "radius_px": 44
+        }
+      ]
+    }
+  ]
+}
