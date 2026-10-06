@@ -5,6 +5,8 @@ from collections.abc import Collection
 import math
 from typing import Protocol
 from pathlib import Path
+import sys
+from time import perf_counter_ns
 
 import cv2
 import numpy as np
@@ -69,6 +71,45 @@ class RecordedVideoCamera:
             raise CameraError("timestamp do vídeo regrediu")
         frame = Frame(image, self.path.name, self._sequence, timestamp, "recorded_video")
         self._previous_timestamp = timestamp
+        self._sequence += 1
+        return frame
+
+    def close(self) -> None:
+        self._capture.release()
+        self._closed = True
+
+
+class LiveCamera:
+    """Fonte local USB/virtual. Timestamp marca entrega ao host, não exposição.
+
+    Não mede atraso de DroidCam/rede/driver. read() pode bloquear no backend;
+    reconexão e captura em fila limitada ficam para a validação M4.
+    """
+
+    def __init__(self, device: int = 0) -> None:
+        if type(device) is not int or device < 0:
+            raise ValueError("device deve ser inteiro não negativo")
+        backend = cv2.CAP_DSHOW if sys.platform == "win32" else cv2.CAP_ANY
+        self._capture = cv2.VideoCapture(device, backend)
+        self._closed = False
+        self._sequence = 0
+        self.camera_id = f"live-{device}"
+        if not self._capture.isOpened():
+            self.close()
+            raise CameraError(f"câmera {device} indisponível; confira DroidCam e o índice")
+        self._capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        self._capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        # Pedido ao driver; suporte e resolução efetiva dependem do dispositivo.
+        self._capture.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+    def read(self) -> Frame:
+        if self._closed:
+            raise CameraError("câmera ao vivo já encerrada")
+        ok, pixels = self._capture.read()
+        timestamp = perf_counter_ns()
+        if not ok or pixels is None:
+            raise CameraError("sem imagem da câmera; confira conexão e aplicativos usando a fonte")
+        frame = Frame(pixels, self.camera_id, self._sequence, timestamp, "host_delivery_monotonic")
         self._sequence += 1
         return frame
 
