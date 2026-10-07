@@ -11,6 +11,21 @@ from robosense_lab.live import main
 
 
 class LiveCLITests(unittest.TestCase):
+    def test_hsv_cli_and_interrupt_close_camera_and_servos(self):
+        capture = MagicMock()
+        pixels = np.zeros((480, 640, 3), np.uint8)
+        capture.read.side_effect = [(True, pixels), KeyboardInterrupt()]
+        with TemporaryDirectory() as tmp, patch('robosense_lab.cameras.cv2.VideoCapture', return_value=capture), patch('robosense_lab.live.PanTiltServos') as servos:
+            servos.return_value.update.return_value = (1500, 1500)
+            output = Path(tmp) / 'trial'
+            self.assertEqual(main(['--detector', 'hsv', '--no-preview', '--output-dir', str(output)]), 0)
+            servos.assert_called_once_with(enabled=False, pan_sign=-1, tilt_down_sign=-1)
+            servos.return_value.close.assert_called_once()
+            capture.release.assert_called_once()
+            rows = [json.loads(row) for row in (output / 'live.jsonl').read_text().splitlines()]
+            self.assertEqual(rows[0]['detector_profile'], 'school-hsv-v1')
+            self.assertEqual(rows[-1]['type'], 'run_stopped')
+
     def test_unavailable_camera_releases_and_records_failure(self):
         capture = MagicMock()
         capture.isOpened.return_value = False

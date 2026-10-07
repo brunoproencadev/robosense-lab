@@ -89,14 +89,15 @@ class LiveCamera:
     def __init__(self, device: int = 0) -> None:
         if type(device) is not int or device < 0:
             raise ValueError("device deve ser inteiro não negativo")
-        backend = cv2.CAP_DSHOW if sys.platform == "win32" else cv2.CAP_ANY
+        backend = (cv2.CAP_DSHOW if sys.platform == "win32" else
+                   cv2.CAP_V4L2 if sys.platform.startswith("linux") else cv2.CAP_ANY)
         self._capture = cv2.VideoCapture(device, backend)
         self._closed = False
         self._sequence = 0
         self.camera_id = f"live-{device}"
         if not self._capture.isOpened():
             self.close()
-            raise CameraError(f"câmera {device} indisponível; confira DroidCam e o índice")
+            raise CameraError(f"câmera {device} indisponível; confira dispositivo, permissões e índice")
         self._capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self._capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         # Pedido ao driver; suporte e resolução efetiva dependem do dispositivo.
