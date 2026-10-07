@@ -10,6 +10,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["numpy>=2.2,<3", "opencv-python-headless>=4.11,<5", "pyserial>=3.5,<4"]
 
+[project.optional-dependencies]
+pi-servos = ["pigpio>=1.78,<2"]
+
 [project.scripts]
 robosense-lab = "robosense_lab.__main__:main"
 
