@@ -10,6 +10,44 @@ from .models import BallObservation, Frame
 LIVE_PROFILE = "live-orange-v5"
 
 
+class HSVBallDetector:
+    """Perfil recuperado da escola; limites calibráveis, sem garantia semântica."""
+
+    def __init__(self, *, h_min=3, h_max=25, s_min=150, v_min=70, processing_width=320):
+        if (any(type(v) is not int for v in (h_min, h_max, s_min, v_min, processing_width))
+                or not 0 <= h_min <= h_max <= 179 or not 0 <= s_min <= 255
+                or not 0 <= v_min <= 255 or processing_width < 160):
+            raise ValueError("Limites HSV/largura inválidos")
+        self.lower = (h_min, s_min, v_min)
+        self.upper = (h_max, 255, 255)
+        self.processing_width = processing_width
+
+    def detect(self, frame: Frame) -> BallObservation:
+        image = frame.image
+        height, width = image.shape[:2]
+        scale = min(1, self.processing_width / width)
+        small = cv2.resize(image, (round(width * scale), max(1, round(height * scale))))
+        mask = cv2.inRange(cv2.cvtColor(small, cv2.COLOR_BGR2HSV), self.lower, self.upper)
+        kernel = np.ones((3, 3), dtype=np.uint8)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        best_area, center, radius, confidence = 0, None, None, 0
+        sx, sy = width / small.shape[1], height / small.shape[0]
+        for contour in contours:
+            area, perimeter = cv2.contourArea(contour), cv2.arcLength(contour, True)
+            if area < 40 or perimeter <= 0:
+                continue
+            circularity = 4 * math.pi * area / perimeter ** 2
+            (x, y), r = cv2.minEnclosingCircle(contour)
+            if circularity >= .65 and area / (math.pi * r ** 2) >= .55 and area > best_area:
+                best_area, center = area, (x * sx, y * sy)
+                radius, confidence = r * max(sx, sy), min(1, circularity)
+        return BallObservation(frame.camera_id, frame.sequence, frame.timestamp_ns, frame.clock_domain,
+                               center is not None, None if center is None else center[0],
+                               None if center is None else center[1], confidence, radius)
+
+
 class BallDetector:
     """Seleciona o maior candidato de cor e forma válidas.
 

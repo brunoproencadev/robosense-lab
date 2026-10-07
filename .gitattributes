@@ -1,2 +1,3 @@
 # Preserve the supplied firmware baseline byte for byte.
 firmware/giga_baseline/giga_baseline.ino -text
+references/tracking_bola_school.py -text
