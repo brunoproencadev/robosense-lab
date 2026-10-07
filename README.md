@@ -12,6 +12,12 @@ desenha um círculo acompanhando as detecções atuais. Veja a
 
 ## Preparação
 
+Ensaio recuperado da escola: detector HSV calibrável e pan/tilt opcional da
+câmera, com servos desligados por padrão. Há entrega em arquivo único
+[robosense-pi.pyz](artifacts/pi/robosense-pi.pyz). Leia os
+[comandos e limites do ensaio M4](docs/validation-m4.md) antes de habilitar GPIO.
+Os sentidos físicos ainda exigem calibração; GIGA e rodas permanecem separados.
+
 Ensaio ao vivo com câmera virtual/USB (preparação do M4):
 
 ```powershell

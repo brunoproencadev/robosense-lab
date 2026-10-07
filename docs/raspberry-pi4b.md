@@ -2,6 +2,11 @@
 
 ## Alvo
 
+Atualização 07/10: ensaio de câmera/servos relatado pelo usuário, fonte recuperada
+e integração preparada. Para arquivo único `.pyz`, calibração e sinais pan/tilt,
+consulte [validation-m4.md](validation-m4.md). O relato não valida a suíte ARM,
+desempenho ou recuperação do projeto integrado.
+
 Raspberry Pi OS **64 bits**, arquitetura `aarch64`, Python **3.11 ou superior**.
 Use o Python fornecido pela distribuição; não é necessário levar o Python 3.14
 do Windows. O mínimo anterior de 3.12 foi reduzido para 3.11 porque o código não

@@ -50,6 +50,11 @@ Consulte [a validação, comandos e demonstração](validation-m3.md).
 
 ## O que pode ser feito em casa
 
+Em 07/10, Bruno relatou primeiro ensaio de câmera e pan/tilt na Pi4B com arquivo
+standalone. Código recuperado/integrado, entrega `.pyz` e 81 testes locais;
+sentidos físicos e métricas da Pi seguem pendentes. M4 ainda não concluído.
+Consulte [validation-m4.md](validation-m4.md).
+
 Contratos, testes, simulação, leitura de vídeos fornecidos pela equipe, avaliação
 e análise dos registros. Vídeos reais do FabLab poderão ser avaliados sem conexão
 com o hardware durante o desenvolvimento.
